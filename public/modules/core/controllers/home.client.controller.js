@@ -3,6 +3,7 @@
 /*global toastr:false */
 /*global jQuery:false */
 /*global current_level:false */
+console.log('asdasd')
 angular.module('core').controller('HomeController',
     function ($scope, $http, $rootScope, Authentication, $stateParams, $location, $modal, $log, Lessons, Levels, $timeout) {
         // This provides Authentication context.
@@ -310,6 +311,19 @@ angular.module('core').controller('SubscriptionCtrl',
         $http.get('/users/me').then(function (res) {
             $rootScope.current_user = res.data;
         });
+
+        $scope.showCouponModal = function () {
+            var modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                controller: 'SubscriptionCtrl',
+                templateUrl: 'modules/core/views/coupon_modal.client.view.html',
+                //size: 'lg'
+            });
+
+            modalInstance.result.then(function (selectedItem) {}, function () {
+                $log.info('Modal showPaymentModal dismissed at: ' + new Date());
+            });
+        };
 
         $scope.showPaymentModal = function (plan, $event) {
             $rootScope.plan = plan;
