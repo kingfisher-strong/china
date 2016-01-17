@@ -1,0 +1,94 @@
+<div class="video_player" ng-if="showVideoFlag">
+    <div class="video_iframe" ng-bind-html="embedcode|to_trusted"></div>
+    <div class="video-control">
+        <button class="btn btn-success col-md-12" id="go_to_quiz" ng-click="goToQuiz()">Go to quiz</button>
+    </div>
+    <div class="video-control">
+        <button ng-show="video.order != videos.length" class="btn btn-default col-md-12" id="go_to_next_video" ng-click="goToNextVideo(video)">Go to the next video
+        </button>
+    </div>
+</div>
+<div class="quiz" ng-if="showQuiz">
+    <div id="quiz_actions" ng-if="showActionFormFlag">
+        <div class="action_button row">
+            <button class="btn btn-primary" ng-click="showAnswerForm()">Do you have another answer?</button>
+            <button class="btn btn-primary pull-right" ng-click="showReportForm()">Report an error in this quiz</button>
+
+        </div>
+        <div class="row separator h20"></div>
+        <div class="add_answer" ng-if="showAnswerFlag">
+            <div class="well row">
+                <div class="">
+                    <p class="col-md-8 col-md-offset-4">Add answer to our database Do you think your answer is correct?
+                        <br/>Write it here</p>
+
+                    <form name="answerForm" class="form-horizontal">
+
+                        <div class="form-group">
+                            <label for="user_answer" class="col-md-4">Add answer to our database</label>
+
+                            <div class="col-md-8">
+                                <input id="user_answer" type="text" class="form-control col-md-8" ng-model="video.quiz.user_answer" required/>
+                            </div>
+
+                        </div>
+                        <p class="col-md-8 col-md-offset-4">We'll take a look at add this if answer if we like it
+                            <br/>
+                            <button class="btn btn-success" ng-disabled="answerForm.$invalid" ng-click="saveAnswer(video.quiz)">Submit</button>
+                        </p>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="report_quiz" ng-if="showReportFlag">
+            <div class="well row">
+                <p class="col-md-8 col-md-offset-4">Please describe what the issue is and we will see to it ASAP</p>
+
+                <form name="reportForm" class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="user_answer" class="col-md-4">Help us fix our quiz</label>
+
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" ng-model="video.quiz.report_text" required placeholder="Text here about the problem" />
+                        </div>
+
+                    </div>
+                    <p class="col-md-8 col-md-offset-4">
+                        <button class="btn btn-success" ng-disabled="reportForm.$invalid" ng-click="saveReport(video.quiz)">Submit</button>
+                    </p>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="answer_list" ng-if="video.quiz.type == 'multiple_options'">
+        <h2>{{ video.quiz.name }}</h2>
+
+        <div class="answer_box" ng-class="{'correct_answer': answer.correct_answer}" ng-repeat="answer in video.quiz.answers" ng-click="checkIsCorrectAnswer(answer)">
+            <h4>{{
+            answer.description }} </h4>
+        </div>
+    </div>
+    <div id="quiz_answers" ng-if="video.quiz.type == 'fill_in_the_answer'" ng-init="getSolution()">
+        <h2>{{ video.quiz.name }}</h2>
+
+        <form class="form-inline">
+            <div class="form-group">
+                <input type="text" ng-model="video.quiz.answer" class="form-control" />
+            </div>
+            <button class="btn btn-success" ng-click="checkIfFillInCorrect()">Check if correct</button>
+        </form>
+
+        <br>
+        <div class="clearfix" ng-if="showSolutionFlag">
+            <p><strong>Correct Answer:</strong></p>
+            <ul style="list-style:none;padding:0" class="alert alert-info">
+                <li ng-repeat="answer in video.quiz.answers">{{ answer.description }}</li>
+            </ul>
+        </div>
+    </div>
+</div>

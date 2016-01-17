@@ -1,0 +1,19 @@
+<section data-ng-controller="QuizreportsController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Quiz Reports</h1>
+    </div>
+    <div class="list-group">
+        <a data-ng-repeat="quizreport in quizreports" data-ng-href="#!/quizreports/{{quizreport._id}}" class="list-group-item">
+			<small class="list-group-item-text">
+				Posted on
+				<span data-ng-bind="quizreport.created | date:'medium'"></span>
+				by
+				<span data-ng-bind="quizreport.user.displayName"></span>
+			</small>
+			<h4 class="list-group-item-heading" data-ng-bind="quizreport.description"></h4>
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!quizreports.$resolved || quizreports.length">
+    	No Quizreports yet.
+    </div>
+</section>

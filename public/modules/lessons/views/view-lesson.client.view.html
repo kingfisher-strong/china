@@ -1,0 +1,34 @@
+<section data-ng-controller="LessonsController" data-ng-init="findOne()">
+    <div class="page-header">
+        <h1>{{ lesson.level.name }} - {{ lesson.name }}</h1>
+        <h5>{{ currentVideo.name }}</h5>
+    </div>
+    <div id="video_container" class="col-sm-9">
+        <div class="lession_video" lesson-video embedcode="currentVideo.embed_code" video="currentVideo" videos="lesson.videos">
+
+        </div>
+
+    </div>
+
+    <div class="all_videos col-sm-3">
+          <a href="{{ public_url }}uploads/{{ lesson.pdf_file }}" ng-if="lesson.pdf_file" class="btn btn-primary" style="margin-bottom:20px" target="_self" target="_blank" download> <i class="fa fa-file-pdf-o"></i> Download PDF <br></a>
+        <a href="javascript:void(0)" data-ng-click="proveLessonMastery(lesson._id)" class="btn btn-success ng-click-active">Prove lesson mastery
+						</a>
+     
+        <ol class="list-group">
+            <li class="list-group-item" ng-repeat="video in lesson.videos | orderBy:'order'" ng-class="{'disabled': video._id==currentVideo._id}"><span class="badge">{{ $index + 1 }}</span> <a href="javascript:void(0);" ng-click="showVideo(video)" >{{ video.name }}</a></li>
+        </ol>
+    </div>
+
+    <div class="col-md-12">
+
+        <div class="pull-right" data-ng-show="((authentication.user) && (authentication.user.roles.indexOf('admin') !== -1))">
+            <a class="btn btn-primary" href="/#!/lessons/{{lesson._id}}/edit">
+                <i class="glyphicon glyphicon-edit"></i>
+            </a>
+            <a class="btn btn-primary" data-ng-click="remove();">
+                <i class="glyphicon glyphicon-trash"></i>
+            </a>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,20 @@
+<section data-ng-controller="QuizAnswersController" data-ng-init="findOne()">
+	<div class="page-header"> 
+		<div class="alert alert-success"><strong>Answer: </strong> {{ quizAnswer.description}}</div>
+		Update Answer for <strong>Video {{ quizAnswer.video_order }}</strong> of lesson <strong>{{ quizAnswer.lesson_name }}</strong>
+		<a href="/#!/lessons/{{ quizAnswer.lesson_id }}/edit#scrollTo=video{{ quizAnswer.video_order }}" class="btn btn-primary">Update</a>
+	</div>
+	<div class="pull-right" data-ng-show="((authentication.user) && (authentication.user.roles.indexOf('admin') != -1))">
+		<a class="btn btn-primary" data-ng-click="remove();">
+			<i class="glyphicon glyphicon-trash"></i>
+		</a>
+	</div>
+	<small>
+		<em class="text-muted">
+			Posted on
+			<span data-ng-bind="quizAnswer.created | date:'mediumDate'"></span>
+			by
+			<span data-ng-bind="quizAnswer.user.displayName"></span>
+		</em>
+	</small>
+</section>

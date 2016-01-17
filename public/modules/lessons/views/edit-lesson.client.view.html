@@ -1,0 +1,230 @@
+<section data-ng-controller="LessonsController" data-ng-init="findOne()">
+    <div class="page-header">
+        <h1>{{ lesson.level.name }} - {{ lesson.name }}</h1>
+    </div>
+    <div class="col-md-12">
+        <form class="form-horizontal" novalidate name="lessonForm">
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label" for="order">Level Number <span class="required red">(*)</span></label>
+
+                    <div class="controls">
+                        <select name="level" data-ng-model="lesson.level" id="level" class="form-control" required
+                                validator="required" initial-validity="true"
+                                required-error-message="Please select a level">
+                            <option value="">Select A Level</option>
+                            <option ng-selected="setLevel(lesson.level, level._id)" value="{{ level._id}}"
+                                    ng-repeat="level in current_levels| orderBy:'order' track by level._id">{{
+                                level.name }}
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="order">Lesson Number <span class="required red">(*)</span></label>
+
+                    <div class="controls">
+                        <input type="text" min="1"
+                               max="20" data-ng-model="lesson.order" id="order" class="form-control"
+                               placeholder="Lesson Number" required initial-validity="true"
+                               validator="required,number,range" required-error-message="The lesson number is required"
+                               number-error-message="Lesson number can only be a number">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="name">Lesson Name <span class="required red">(*)</span></label>
+
+                    <div class="controls">
+                        <input type="text" data-ng-model="lesson.name" id="name" class="form-control"
+                               placeholder="Lesson Name" required validator="required" initial-validity="true"
+                               required-error-message="The lesson needs a name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="name"></label>
+
+                    <div class="controls">
+                        <div class="btn btn-primary" ngf-select ng-model="pdf_file" name="file"
+                             accept="application/pdf"><i class="fa fa-file-pdf-o"></i> Add PDF
+                        </div>
+                        <span ng-if="pdf_file">{{ pdf_file.name }}</span>
+                        <span ng-if="lesson.pdf_file"><a href="{{ public_url }}uploads/{{ lesson.pdf_file }}">Download
+                            PDF</a></span>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"></label>
+
+                    <div class="controls">
+                        <div class="btn btn-primary" ngf-select ng-model="thumbnail" name="thumbnail"
+                             accept="image/*"><i class="fa fa-picture-o"></i> Add Thumbnail
+                        </div>
+                        <span ng-if="thumbnail">{{ thumbnail.name }}</span>
+
+                        <span ng-if="lesson.thumbnail"><img
+                                ng-src="{{ public_url }}uploads/thumbs/{{ lesson.thumbnail }}" style="max-width: 80px;">
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <a href="/#!/lessons" class="btn btn-danger">Cancel</a>
+
+                    <input type="submit" validation-submit="lessonForm" ng-click="update()"
+                           ng-disabled="lessonForm.$invalid" value="Update Lesson" class="btn btn-primary">
+                </div>
+                <div ng-show="lessonForm.$invalid" class="text-danger">
+                    <em>Can't save. Please correct form validation errors!</em>
+                </div>
+                <div data-ng-show="error" class="text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="row">
+        <hr class="col-md-12"/>
+    </div>
+    <h2>Add videos and quizzes
+        <button class="btn btn-primary" ng-click="saveVideoAndQuiz()"
+                ng-disabled="quizzesForm.$invalid || lesson.videos.length == 0">Update Video and quizzes
+        </button>
+    </h2>
+
+    <div class="add_video_quiz">
+        <form action="" role="form" name="videoForm">
+            <input type="text" ng-model="video_number" size="3" class="video_number" required="required"
+                   validator="required,number" initial-validity="true" value=""/>
+            <button class="btn btn-primary" ng-click="addVideo()" ng-disabled="videoForm.$invalid"><i
+                    class="fa fa-plus"></i> Add Video and Quiz
+            </button>
+        </form>
+    </div>
+    <form class="form-horizontal" role="form" name="quizzesForm" id="quizzesForm" novalidate>
+        <div id="video{{$index+1}}" class="col-md-12 video" ng-repeat="video in lesson.videos | orderBy:'order'">
+            <div class="row">
+                <h3>Video <input type="text" required="required" initial-validity="true" validator="required,number"
+                                 ng-model="video.order"
+                                 style="width: 40px;"/> <a class="btn btn-danger pull-right"
+                                                           data-ng-click="removeVideo(video, $index);">
+                    <i class="glyphicon glyphicon-trash"> Delete video, quiz?</i>
+                </a></h3>
+            </div>
+
+            <fieldset>
+                <div class="form-group">
+                    <label class="control-label">Video Name <span class="required red">(*)</span></label>
+
+                    <div class="controls">
+                        <input type="text" data-ng-model="video.name" required class="form-control"
+                               placeholder="Video Name" validator="required" initial-validity="true"
+                               required-error-message="The video name is required">
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <div class="controls">
+                                <textarea data-ng-model="video.embed_code" required class="form-control"
+                                          placeholder="Video Iframe" validator="required" initial-validity="true"
+                                          required-error-message="The video iframe is required"></textarea>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Which quiz? </label>
+
+                    <div class="controls">
+                        <label>
+                            <input type="radio" data-ng-model="video.quiz.type" name="quiz_type[{{$index}}]" class=""
+                                   value="multiple_options" checked>
+                            Multiple Options
+                        </label>
+                        <label>
+                            <input type="radio" data-ng-model="video.quiz.type" name="quiz_type[{{$index}}]" class=""
+                                   value="fill_in_the_answer">
+                            Fill in the answer
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="quiz_options" ng-if="video.quiz.type == 'multiple_options'">
+                    <div class="form-group">
+                        <input type="text" data-ng-model="video.quiz.name" class="form-control"
+                               placeholder="Quiz" validator="required" initial-validity="true" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Multiple choice options (min. 2 max. 4) </label>
+                    </div>
+
+                    <div class="form-group" ng-repeat="answer in video.quiz.answers">
+                        <div class="controls row">
+                            <div class="col-md-8"><input prevent-char  type="text" data-ng-model="answer.description"
+                                                         class="form-control" placeholder="Fill in the answer"
+                                                         validator="required" initial-validity="true"
+                                                         required-error-message="This is required" required></div>
+                            <div class="col-md-1"><a style="padding-left: 0;" ng-if="$index>1" href="javascript:void(0)"
+                                                     ng-click="removeAnswer(video.quiz.answers, $event, $index)" class="btn"><i
+                                    class="glyphicon glyphicon-trash"></i></a></div>
+                            <div class="col-md-3">
+                                <select name="answer.is_correct"
+                                        ng-model="answer.is_correct" required>
+                                    <option value="y">Correct</option>
+                                    <option value="n">Incorrect</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="form-group" ng-if="!video.quiz.answers || video.quiz.answers.length < 4">
+                        <a href="javascript:void(0)" class="btn btn-primary" ng-click="addMultipleAnswersOption(video)"><i
+                                class="fa fa-plus"></i> More options</a>
+                    </div>
+
+                </div>
+                <div class="quiz_options" ng-if="video.quiz.type == 'fill_in_the_answer'">
+                    <div class="form-group">
+                        <input type="text" data-ng-model="video.quiz.name" class="form-control"
+                               placeholder="Quiz" validator="required" validator="required" initial-validity="true"
+                               required-error-message="This is required" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Fill in the answer options </label>
+                    </div>
+
+                    <div class="form-group" ng-repeat="answer in video.quiz.answers">
+                        <div class="controls row">
+                            <div class="col-md-11">
+                                <input type="hidden" value="y" ng-model="answer.is_correct"/>
+                                <input type="text" prevent-char data-ng-model="answer.description"
+                                                          class="form-control" placeholder="Fill in the answer"
+                                                          validator="required" initial-validity="true"
+                                                          required-error-message="This is required" required> </div>
+                            <div class="col-md-1"><a ng-if="video.quiz.answers.length > 1" style="padding-left: 0;" href="javascript:void(0)"
+                                                     ng-click="removeFillInAnswer(video.quiz.answers, $index)" class="btn"><i
+                                    class="glyphicon glyphicon-trash"></i></a></div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <a href="javascript:void(0)" class="btn btn-primary" ng-click="addAnswerOption(video)"><i
+                                class="fa fa-plus"></i> More options</a>
+                    </div>
+                </div>
+
+
+            </fieldset>
+
+
+        </div>
+        <button class="btn btn-primary" ng-click="saveVideoAndQuiz()"
+                ng-disabled="quizzesForm.$invalid || lesson.videos.length == 0">Update Video and quizzes
+        </button>
+    </form>
+
+</section>

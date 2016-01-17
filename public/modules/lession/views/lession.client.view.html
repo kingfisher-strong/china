@@ -1,0 +1,141 @@
+<section data-ng-controller="LessonController">
+    <div class="col-md-9">
+        <div id="video_window" ng-show="showVideo">
+
+            <div class="player">
+                <div class="video" id="player-container">
+                    <iframe allowfullscreen="" allowtransparency="true" class="vzaar-video-player" frameborder="0"
+                            height="324" id="vzvd-4318229" mozallowfullscreen="" name="vzvd-4318229"
+                            src="//view.vzaar.com/4318229/player?apiOn=true" title="vzaar video player" type="text/html"
+                            webkitallowfullscreen="" width="576" style="width: 100%; height: 448.3868px;"></iframe>
+                </div>
+
+            </div>
+            <div class="well" style="margin:-5px 0 0 0;padding:25px 15px 15px 15px;">
+
+                <button id="go_to_quiz" ng-click="showQuiz()" class="btn btn-success"
+                        style="width:100%; margin:0 0 10px 0;">Go to
+                    quiz
+                </button>
+
+                <button id="go_to_next_video"
+                        onclick=""
+                        value="yes" style="width:100%;padding:5px 30px;" class="btn"> Go to the next video
+                </button>
+
+
+            </div>
+        </div>
+        <div id="quiz" ng-show="!showVideo">
+            <div id="quiz_window">
+                <label for="">How good was the video you just saw?</label><star-rating ng-model="rating"></star-rating>
+
+                <div id="quiz_answers"
+                     style="width: 100%; border: 1px dashed rgb(255, 255, 255); padding: 2% 0px 40px; overflow: hidden; background: rgb(245, 245, 245);">
+                    <div id="quiz_tools" style="display:none">
+                        <a href="javascript:void(0)" id="add_answer"><strong>Do you have another answer?</strong></a>
+                        <a href="javascript:void(0)" id="add_report"><strong>Report an error in this quiz</strong></a>
+                    </div>
+
+
+                    <div id="quiz_options" style="display:none">
+                        <strong style="float: left;">Add answer to our database</strong>
+
+                        <div style="width: 500px;float: right;">
+                            Do you think your answer is correct?<br>Write it here
+                            <form action="#" enctype="multipart/form-data" id="add_quiz_answer" method="post"><input
+                                    label="" name="description" type="text"><input name="is_correct" type="hidden"
+                                                                                   value="y"><input name="type_of_quiz"
+                                                                                                    type="hidden"
+                                                                                                    value="fill_in_the_answer"><input
+                                    name="streak" type="hidden" value="67"><input name="lesson" type="hidden"
+                                                                                  value="1698"><input name="quiz"
+                                                                                                      type="hidden"
+                                                                                                      value="1675">
+                            </form>
+                            <a class="btn btn-success">Submit</a>
+                            <br>
+                            We'll take a look at add this if answer if we like it
+                        </div>
+                    </div>
+
+                    <div id="quiz_report" style="display:none">Please describe what the issue is and we will see to it
+                        ASAP <br>
+                        <strong style="float: left;">Help us fix our quiz</strong>
+
+                        <div style="width: 500px;float: right;">
+                            <form action="#" enctype="multipart/form-data" id="add_quiz_report" method="post"><input
+                                    label="" name="description" placeholder="Text here about the problem"
+                                    type="text"><input name="type_of_quiz" type="hidden"
+                                                       value="fill_in_the_answer"><input name="streak" type="hidden"
+                                                                                         value="67"><input name="lesson"
+                                                                                                           type="hidden"
+                                                                                                           value="1698"><input
+                                    name="quiz" type="hidden" value="1675"></form>
+                            <a class="btn btn-success"
+                               >Submit</a>
+                        </div>
+                    </div>
+
+                    <h1 style="margin:10px 0 5px 0;color: darkgreen;"><span class="badge badge-warning"
+                                                                            style="margin: 0 45.5%;">Quiz:</span>
+                        <div class="centered">What does the character for '3' look like?</div>
+                    </h1>
+
+                    <br>
+
+
+                    <div class="centered">
+                        <div id="answer_list">
+
+
+                            <div class="answer_box"><h4>中 </h4>
+                            </div>
+
+
+                            <div class="answer_box" ><h4>三 </h4>
+                            </div>
+
+
+                            <div class="answer_box"><h4>亖 </h4>
+                            </div>
+
+
+                            <div class="answer_box"><h4>丨 </h4>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+                </div>
+                <h1 style="clear:both;"></h1><br><br>
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="col-md-3">
+        <div class="panel panel-default">
+            <div class="panel-heading"><a href=""><i style="color: red;" class="fa fa-file-pdf-o"></i> Download Lesson
+                PDF</a></div>
+
+            <div class="panel-body">
+                <div class="list-quizs">
+                    <ol>
+                        <li ng-repeat="i in getNumber(number) track by $index"><a href="">Quiz title {{ $index }}</a> <span class="pull-right"><a
+                                href="">Quiz</a></span> </li>
+                    </ol>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+</section>

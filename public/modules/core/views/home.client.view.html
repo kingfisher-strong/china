@@ -1,0 +1,187 @@
+<section data-ng-controller="HomeController" ng-init="getLessons()">
+
+
+	<div class="item">
+	
+		<h2 class="ct-fw-700">Course Material <a ng-if="!accessLevel" href="/#!/subscribe" class="btn btn-primary">Press me for a wonderful deal</a></h2> 
+		<!--<div class="ct-divider ct-u-marginBoth30"></div>-->
+		<div class="row" style="text-align: center" ng-if="showStoryTime1" ng-repeat="lesson in lessons| orderBy: 'order' | offset: currentPage*itemsPerPage | limitTo: 1 ">
+			<p><button tooltip-placement="top" uib-tooltip="Pass the 4 Lesson Masteries in this chapter to unlock me" class="btn btn-default col-md-6 col-md-offset-3" ng-click="openStoryTime(lesson)"><i class="fa fa-lock"></i> Story Time</button></p>
+			<p class="centered clearfix"><a href="{{ lesson.mp3 }}" download><i class="fa fa-music"> Download MP3</i></a></p>
+		</div>
+		<div class="ct-divider ct-u-marginBoth10"></div>
+
+		<div id="hurry_up" style="text-align:center;display:none;  top: -85px;" super-deal>
+			<h3 class="red-color" style="color:red">HURRY UP!</h3>
+			<p>Super deal ends in</p>
+			<div id="clock"></div>
+			<p><a href="/#!/subscribe" class="btn btn-primary">Take me to this fantastic deal!</a></p>
+		</div>
+
+		<div class="row">
+			<div class="col-md-4">
+				<form>
+					<fieldset>
+						<div class="form-group" id="unit_switcher">
+							<label class="ct-u-marginBottom10 level-number">Level {{ currentLevel }}</label>
+							<select ng-disabled="!accessLevel" data-ng-model="currentPage" ng-change="updatePage()" id="page" class="form-control  ct-u-marginBottom10" ng-options="n|getChaper for n in [] | lessonPage:lessons.length">
+
+							</select>
+						</div>
+
+					</fieldset>
+				</form>
+
+			</div>
+			<div class="col-md-3 col-md-offset-2">
+				<form>
+					<fieldset>
+						<div class="form-group">
+							<label class="ct-u-marginBottom10">&nbsp;</label>
+							<a class="btn btn-success form-control" ng-if="!accessLevel" tooltip-placement="top" uib-tooltip="A Level test with 100 questions. Pass it and earn Mastery for this level." data-ng-click="subscribe()">Prove Level Mastery</a>
+							<a class="btn btn-success form-control" ng-if="accessLevel" ui-sref="level_mastery" tooltip-placement="top" uib-tooltip="A Level test with 100 questions. Pass it and earn Mastery for this level.">Prove Level Mastery</a>
+						</div>
+
+					</fieldset>
+				</form>
+
+			</div>
+			<div class="col-md-3">
+				<form>
+					<fieldset>
+						<div class="form-group">
+							<label class="ct-u-marginBottom10">&nbsp;</label>
+							<button tooltip-placement="top"  uib-tooltip="We have over 300 hours of material. Choose any level and get started." class="btn btn-primary form-control" ng-click="showLevelModal()">Change level</button>
+						</div>
+
+					</fieldset>
+				</form>
+
+			</div>
+
+		</div>
+		<div class="ct-divider ct-u-marginBoth10"></div>
+
+		<div class="row">
+			<div class="col-sm-6 col-md-3 all_lessons" ng-repeat="lesson in lessons| orderBy: 'order' | offset: currentPage*itemsPerPage | limitTo: 4 ">
+				<div class="ct-productBox" ng-if="accessLevel || lesson.order==1" ng-class="{'passed': passedLesson(lesson)}">
+					<a href="/#!/lessons/{{ lesson._id }}">
+						<div ng-if="lesson.order==1 && !accessLevel" style="border-radius: 0;margin: 0;" class="alert alert-success">Free Lesson</div>
+						<div class="lesson-header" ng-class="{'have_not_started': !haveStarted(lesson), 'passed_lesson': passedLesson(lesson)}">
+							Lesson {{ lesson.order }}: {{ lessionStatus(lesson) }}
+						</div>
+						<div class="ct-productImage">
+							<img ng-if="lesson.thumbnail" ng-src="{{ public_url }}uploads/thumbs/{{ lesson.thumbnail }}" style="max-width: 100%;">
+							<img ng-if="!lesson.thumbnail" src="assets/images/content/productBox-5.jpg">
+						</div>
+						<div class="ct-productDescription">
+							<h5 class="ct-fw-600 ct-u-marginBottom10 lesson-title">{{ lesson.name }}</h5>
+						</div>
+					</a>
+					<div class="lesson-learn" ng-data-init="">
+						<ul>
+							<li ng-repeat="video in lesson.videos | orderBy:'order'"><a href="" ng-click="viewVideo(lesson, video)">{{ video.name }}</a></li>
+						</ul>
+					</div>
+					<div style="text-align: center">
+						<a href="javascript:void(0)" data-ng-click="proveLessonMastery(lesson._id)" class="btn btn-success">Prove lesson mastery
+						</a>
+					</div>
+					<div class="ct-divider ct-u-marginBoth30"></div>
+					<div class="ct-productMeta">
+
+					</div>
+				</div>
+
+				<div class="ct-productBox disabled" ng-if="!accessLevel && lesson.order!=1">
+					<a href="javascript:void(0)" ng-click="subscribe()">
+						<div ng-if="lesson.order>1" class="alert alert-info" style="border-radius: 0;margin: 0;">
+							Subscribe to access
+						</div>
+						<div class="lesson-header" ng-class="{'have_not_started': !haveStarted(lesson)}">
+							Lesson {{ lesson.order }}: {{ lessionStatus(lesson) }}
+						</div>
+						<div class="ct-productImage">
+							<img ng-if="lesson.thumbnail" ng-src="{{ public_url }}uploads/thumbs/{{ lesson.thumbnail }}" style="max-width: 100%;">
+							<img ng-if="!lesson.thumbnail" src="assets/images/content/productBox-5.jpg">
+						</div>
+						<div class="ct-productDescription">
+							<h5 class="ct-fw-600 ct-u-marginBottom10 lesson-title">{{ lesson.name }}</h5>
+						</div>
+					</a>
+					<div class="lesson-learn" ng-data-init="">
+						<ul>
+							<li ng-repeat="video in lesson.videos | orderBy:'order'"><a href="javascript:void(0)" ng-click="subscribe()">{{ video.name }}</a></li>
+						</ul>
+					</div>
+					<div style="text-align: center">
+						<a href="javascript:void(0)" class="btn btn-success" data-ng-click="subscribe()">Prove lesson mastery
+						</a>
+					</div>
+					<div class="ct-divider ct-u-marginBoth10"></div>
+					<div class="ct-productMeta">
+
+					</div>
+				</div>
+
+			</div>
+
+
+		</div>
+		<div class="ct-divider ct-u-marginBoth10"></div>
+
+	</div>
+
+
+	<ol id="joyRideTipContentTour" style="display: none">
+		<li data-text="Yes, please!" class="item"  data-options="tipLocation:top;tipAnimation:fade">
+			<h2>Hello and welcome!</h2>
+			<p>Here’s a quick round tour of the place.</p>
+			<a id="close_roundtour" style="margin-right: 10px;">No, thank you. </a>
+		</li>
+		<li data-class="lesson-header" data-button="Got it!" data-options="tipLocation:top;tipAnimation:fade">
+			<p>Here we have 4 lessons.</p>
+		</li>
+		<li data-class="lesson-header" data-button="Got it!" data-options="tipLocation:right">
+			<p>Each lesson consists of 10-20 short videos and is about 20-30 mins long.</p>
+		</li>
+
+		<li data-class="story_time" data-button="Got it!" data-options="tipLocation:top;tipAnimation:fade">
+			<p>Pass the mastery test for 4 lessons and you will unlock story time.</p>
+		</li>
+		<li data-class="story_time" data-button="Got it!" data-options="tipLocation:top;tipAnimation:fade">
+			<p>We will read a story here based on what you know so far. This will help give context to what
+				you're learning (wonderful stories by the way).</p>
+		</li>
+		<li data-id="unit_switcher" data-button="Got it!" data-options="tipLocation:right;tipAnimation:fade">
+			<p>This is Chapter 1. In Chapter 2 you’ll find the next four lessons.</p>
+		</li>
+		<li data-id="unit_switcher" data-button="Got it!" data-options="tipLocation:right;tipAnimation:fade">
+			<p>There are 4-5 chapters in each level. Your current level is 1, but you can change any time.</p>
+		</li>
+
+		<li data-class="level" data-button="Got it!" data-options="tipLocation:right;tipAnimation:fade">
+			<p>In total we will have 20+ levels here, uploading one new level every month</p>
+		</li>
+		<li data-class="level-number-button-green" data-button="Got it!" data-options="tipLocation:top;tipAnimation:fade">
+			<p>When you feel ready you click “Prove Mastery”. If you pass the test you will unlock the
+				next level, and also all the story times in this level (unless they're already unlocked).</p>
+		</li>
+		<li data-class="level-number-button-green" data-button="Got it!" data-options="tipLocation:bottom;tipAnimation:fade">
+			<p> If you already know some Chinese, doing this "Level Mastery" is a great way to find your own level to
+				start studying from.</p>
+		</li>
+		<li data-button="Got it!" data-options="tipLocation:top;tipAnimation:fade">
+			<p>That is it for now. And just to give you a look backstage we are currently working on a
+				mobile app, forums and classes with live teachers.</p>
+		</li>
+		<li data-button="Got it!" data-options="tipLocation:top;tipAnimation:fade">
+			<p>Please let us know if you need anything at Sales@dominochinese.com.</p>
+		</li>
+		<li data-button="Got it!" data-options="tipLocation:top;tipAnimation:fade">
+			<p>Fantastic! Enjoy learning :)  <br>       / The DC team</p>
+		</li>
+
+
+	</ol>
+</section>

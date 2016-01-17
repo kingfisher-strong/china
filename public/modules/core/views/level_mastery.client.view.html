@@ -1,0 +1,104 @@
+<level-mastery>
+    <div class="row" style="text-align: right; margin-bottom: 10px;">
+        <div id="total_quizes" class="badge badge-correct">Total {{ total_quizzes }} quizzes</div>
+        <div class="badge badge-warning" style="margin: 0 0 0 5px;">
+            <div id="total_wrong" style="float:left;" ng-bind="total_wrong"></div>
+            &nbsp; quizzes wrong
+        </div>
+    </div>
+
+    <div class="quiz">
+        <div id="quiz_actions" ng-if="showActionFormFlag">
+            <div class="action_button row">
+                <button class="btn btn-primary" ng-click="showAnswerForm()">Do you have another answer?</button>
+                <button class="btn btn-primary pull-right" ng-click="showReportForm()">Report an error in this quiz
+                </button>
+
+            </div>
+            <div class="row separator h20"></div>
+            <div class="add_answer" ng-if="showAnswerFlag">
+                <div class="well row">
+                    <div class="">
+                        <p class="col-md-8 col-md-offset-4">Add answer to our database Do you think your answer is correct?
+                            <br/>Write it here</p>
+
+                        <form name="answerForm" class="form-horizontal">
+
+                            <div class="form-group">
+                                <label for="user_answer" class="col-md-4">Add answer to our database</label>
+
+                                <div class="col-md-8">
+                                    <input id="user_answer" type="text" class="form-control col-md-8" ng-model="current_video.user_answer" required/>
+                                </div>
+
+                            </div>
+                            <p class="col-md-8 col-md-offset-4">We'll take a look at add this if answer if we like it
+                                <br/>
+                                <button class="btn btn-success" ng-disabled="answerForm.$invalid" ng-click="saveAnswer(current_video)">Submit
+                                </button>
+                            </p>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="report_quiz" ng-if="showReportFlag">
+                <div class="well row">
+                    <p class="col-md-8 col-md-offset-4">Please describe what the issue is and we will see to it ASAP</p>
+
+                    <form name="reportForm" class="form-horizontal">
+
+                        <div class="form-group">
+                            <label for="user_answer" class="col-md-4">Help us fix our quiz</label>
+
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" ng-model="current_video.report_text" required placeholder="Text here about the problem" />
+                            </div>
+
+                        </div>
+                        <p class="col-md-8 col-md-offset-4">
+                            <button class="btn btn-success" ng-disabled="reportForm.$invalid" ng-click="saveReport(current_video)">Submit
+                            </button>
+                        </p>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="answer_list" ng-if="current_video.type == 'multiple_options'">
+            <h2>{{ current_video.name }}</h2>
+
+            <div class="answer_box" ng-class="{'correct_answer': answer.correct_answer}" ng-repeat="answer in current_video.answers" ng-click="checkIsCorrectAnswer(answer)">
+                <h4>{{
+                    answer.description }} </h4>
+            </div>
+        </div>
+        <div id="quiz_answers" ng-if="current_video.type == 'fill_in_the_answer'" ng-init="getSolution()">
+            <h2>{{ current_video.name }}</h2>
+
+            <form class="form-inline">
+                <div class="form-group">
+                    <input type="text" ng-model="current_video.answer" class="form-control" />
+                </div>
+                <button class="btn btn-success" ng-click="checkIfFillInCorrect()">Check if correct</button>
+            </form>
+            <br>
+            <div class="clearfix" ng-if="showSolutionFlag" >
+                <p><strong>Correct Answer:</strong></p>
+                <ul style="list-style:none;padding:0"  class="alert alert-info">
+                    <li ng-repeat="answer in current_video.answers">{{ answer.description }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <ol id="lessonMasteryPopup" style="display: none">
+        <li data-text="Ok, let's go!" class="item" data-options="tipLocation:top;tipAnimation:fade">
+            <p>Very 好! You've reached Level Mastery. Get at least 90% to pass the mastery</p>
+            <br/>
+        </li>
+    </ol>
+
+</level-mastery>

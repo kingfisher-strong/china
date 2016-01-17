@@ -1,0 +1,58 @@
+<div id="checkout-form">
+    <form id="cardForm" name="cardForm" class="form-vertical" ng-show="!current_user.subscribed">
+        <div class="form-group-lg">
+            <input required class="form-control"
+                   ng-model="creditCard.cardholderName"
+                   placeholder="Card Holder Name"
+                    />
+        </div>
+        <div class="row separator h20"></div>
+
+        <div class="form-group-lg">
+            <input required class="form-control" ng-card
+                   ng-model="creditCard.number"
+                   placeholder="Your Credit Card Number"
+                    />
+        </div>
+        <div class="row separator h20"></div>
+
+        <div class="form-group-lg">
+            <input required class="form-control" ng-exp
+                   ng-model="creditCard.expirationDate"
+                   placeholder="mm/yy"
+                    />
+        </div>
+        <div class="row separator h20"></div>
+        <div class="form-group-lg">
+            <input required class="form-control" ng-cvc
+                   ng-model="creditCard.cvc"
+                   placeholder="CVC/CCV Your last 3/4 numbers on the back of your card"
+                    />
+        </div>
+
+        <div class="row separator h20"></div>
+        <div class="form-group-lg">
+            <p  style="text-align: center;">We Support:</p>
+            <p  style="text-align: center;">Visa, MasterCard, Amex, Disover, JCB, Maestro, UnionPay</p>
+
+        </div>
+        <div class="row separator h20"></div>
+        <div class="form-actions btn-group-vertical" style="text-align:center">
+            <button ng-disabled="cardForm.$invalid || !isValid" id="subscribe_button" class="btn btn-primary"
+                    ng-click="newCustomerSubscription()"
+                    >Subscribe
+            </button>
+        </div>
+    </form>
+
+    <form id="subscriptionForm" name="cardForm" class="form-vertical" ng-show="current_user.subscribed">
+        <div class="form-actions btn-group-vertical">
+            <button class="btn btn-primary"
+                    ng-click="existingCustomerSubscription()"
+                    >Subscribe
+            </button>
+        </div>
+    </form>
+
+</div>
+

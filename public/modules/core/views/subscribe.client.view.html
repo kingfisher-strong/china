@@ -1,0 +1,129 @@
+<section id="main" class="row" data-ng-controller="SubscriptionCtrl">
+
+
+    <div class="col-sm-12" id="mobile_user_video" ng-subscribe>
+        <div id="hurry_up"
+             style="text-align: center; top: -85px;display: none">
+            <h3 class="red-color" style="color:red">HURRY UP!</h3>
+
+            <p>Super deal ends in</p>
+
+            <div id="clock">19m 44s</div>
+            <p><a href="/#!/subscribe" class="btn btn-primary">Take me to this fantastic deal!</a></p>
+        </div>
+        <h2 style="text-align: center;margin-top: 80px;">Subscribe and access all our material!</h2>
+
+        <div id="plans">
+
+            <!-- item -->
+            <div class="col-md-3 text-center plan">
+                <div class="panel panel-pricing">
+                    <div class="panel-heading">
+                        <h3>1 <br>Month </h3>
+                    </div>
+                    <div class="panel-body text-center">
+                        <p><strong>$20</strong>/month</p>
+                    </div>
+                    <ul class="list-group text-center" style="height:103px;">
+                    </ul>
+                    <div class="panel-footer1">
+                        <a class="checkout-button" ng-click="showPaymentModal('1month', $event)"><img
+                                src="modules/core/img/subscribe.png" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <!-- /item -->
+            <!-- item -->
+            <div class="col-md-3 text-center plan">
+                <div class="panel panel-pricing">
+                    <div class="panel-heading">
+                        <h3>3 <br>Months</h3>
+                    </div>
+                    <div class="panel-body text-center">
+                        <p><strong>$18</strong>/month</p>
+                    </div>
+                    <ul class="list-group text-center">
+                        <li class="list-group-item">
+                            <del>$60</del>
+                        </li>
+                        <li class="list-group-item">Total: $54<br>You save <big>$6</big></li>
+                    </ul>
+                    <div class="panel-footer1">
+                        <a class="checkout-button" ng-click="showPaymentModal('3months', $event)"><img
+                                src="modules/core/img/subscribe.png" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <!-- /item -->
+            <!-- item -->
+            <div class="col-md-3 text-center plan">
+                <div class="panel panel-pricing">
+                    <div class="panel-heading">
+                        <h3>6 <br>Months</h3>
+                    </div>
+                    <div class="panel-body text-center">
+                        <p><strong>$15</strong>/month</p>
+                    </div>
+                    <ul class="list-group text-center">
+                        <li class="list-group-item">
+                            <del>$240</del>
+                        </li>
+                        <li class="list-group-item"> Total: $90<br>You save <big>$30</big></li>
+                    </ul>
+                    <div class="panel-footer1">
+                        <a class="checkout-button" ng-click="showPaymentModal('6months', $event)"><img
+                                src="modules/core/img/subscribe.png" alt=""></a>
+                    </div>
+                </div>
+            </div>
+            <!-- /item -->
+            <!-- item -->
+            <div class="col-md-3 text-center plan">
+                <img src="/modules/core/img/best-value.png" alt="" class="best-value">
+                <div class="panel panel-pricing">
+                    <div class="panel-heading">
+                        <h3>12 <br>Months </h3>
+                    </div>
+                    <div class="panel-body text-center">
+                        <p><strong>$13</strong>/month</p>
+                    </div>
+                    <ul class="list-group text-center">
+                        <li class="list-group-item"><del>$480</del></li>
+                        <li class="list-group-item">Total: $156<br>You save <big>$84</big></li>
+                    </ul>
+                    <div class="panel-footer1">
+
+                        <a class="checkout-button" ng-click="showPaymentModal('12months', $event)"><img src="modules/core/img/subscribe.png" alt=""></a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- /item -->
+            <div class="guarantee"><img class="guarantee-icon" src="modules/core/img/guarantee.png" alt="">There’s a
+                7-day-money-back guarantee to all our deals! <br>
+                Just send us an email when you unsubscribe. No questions asked!
+            </div>
+            <div style="text-align:center"><a href="/#!/" class="btn btn-danger cancel-btn">cancel</a>
+            </div>
+
+            <style>
+                #modal-subscribe {
+                    box-shadow: none;
+                    border: none;
+                    width: 600px !important;
+                    margin-left: -300px !important;
+                }
+
+                #CardForm label {
+                    width: 150px;
+                    display: inline-block;
+                }
+            </style>
+
+
+        </div>
+
+
+    </div>
+</section>

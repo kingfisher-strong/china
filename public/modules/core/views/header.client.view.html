@@ -1,0 +1,59 @@
+<div class="ct-navbarMobile">
+    <a class="navbar-brand" ui-sref="home"><img src="modules/core/img/brand/logodomino.png" alt="Domino Chinese"> </a>
+    <button type="button" class="navbar-toggle" data-ng-click="toggleCollapsibleMenu()">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+</div>
+
+<nav class="navbar navbar-default yamm collapse navbar-collapse" role="navigation"
+     >
+    <div class="container">
+        <div class="navbar-header">
+            <a href="/#!/"><img src="modules/core/img/brand/logodomino.png" alt="Domino Chinese"></a>
+        </div>
+        <div class="ct-navbar--fluid pull-right main-menu">
+            <ul class="nav navbar-nav ct-navbar--fadeInUp" data-ng-show="authentication.user">
+                <li data-ng-if="menu.shouldRender(authentication.user) && isAdmin()" class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Management <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                       <li data-ng-repeat="item in menu.items | orderBy: 'position'" data-ng-if="item.shouldRender(authentication.user);">
+                        <a href="/#!/{{item.link}}" data-ng-bind="item.title"></a>
+                        </li>
+                    </ul>
+			    </li>
+                </li>
+                <li><a ui-sref="home">Course Material</a></li>
+                <li><a ui-sref="leave_feedback">Support</a></li>
+                <li><a ui-sref="setup_keyboard">Setup Keyboard</a></li>                                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"> <div style="display:inline" data-ng-bind="authentication.user.displayName"></div> <b class="caret"></b>
+                    </a>
+         
+                    <ul class="dropdown-menu" style="z-index: 9999; padding: 20px;" data-ng-show="authentication.user">
+                        <li>
+                            <a href="/#!/settings/profile">Edit Profile</a>
+                        </li>
+                        <li data-ng-show="authentication.user.provider === 'local'">
+                            <a href="/#!/settings/password">Change Password</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/auth/signout">Sign Out</a>
+                        </li>
+                    </ul>
+            </li>
+            </ul>
+            <ul class="nav navbar-nav ct-navbar--fadeInUp pull-right" data-ng-hide="authentication.user">
+                <li ui-route="/signin" ng-class="{active: $uiRoute}"><a href="/#!/signin">Login <i
+                                class="fa fa-lock"></i></a></li>
+                <li ui-route="/signup" ng-class="{active: $uiRoute}"><a href="/#!/signup">Sign Up <i
+                                class="fa fa-user"></i></a></li>
+            </ul>
+
+
+        </div>
+    </div>
+</nav>
+

@@ -1,0 +1,37 @@
+<div id="modal-level" class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="closeModal()">×</button>
+        <h4 class="modal-title">Levels</h4>
+    </div>
+    <div class="modal-body">
+        <a href="javascript:void(0)" id="nav-left"><i class="fa fa-chevron-left"></i></a>
+        <div class="caroufredsel_wrapper"
+             style="">
+            <ul id="levels" ng-carousel>
+
+
+                <li class="level"  ng-click="setCurrentLevel(level)" ng-class="{'current': currentLevel==level.order, 'passed_level': passedLevel(level)}" rel="tooltip" style="" ng-repeat="level in all_levels | orderBy:'order'">
+                    <div>
+
+                        <a class="change_level">
+
+                            <h5 class="level-name">Level {{ level.order }}</h5>
+                            <span class="level-status" ng-if="currentLevel==level.order">(Current level )</span>
+                            <span class="level-status" ng-if="passedLevel(level)" style="width: 100%;">Mastered</span>
+                            <span class="level-status" ng-if="currentLevel!=level.order && !passedLevel(level)">{{ level.description}} </span>
+                            <span class="level-percent" style="display:none">0.00%</span>
+
+                        </a>
+
+                    </div>
+                </li>
+
+
+
+
+            </ul>
+        </div>
+        <a href="javascript:void(0)" id="nav-right"><i class="fa fa-chevron-right"></i></a>
+    </div>
+
+</div>

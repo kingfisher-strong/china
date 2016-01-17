@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<!--[if IE 8 ]>
+<html class="no-js ie8" lang="en"> <![endif]-->
+<!--[if IE 9 ]>
+<html class="no-js ie9" lang="en"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head lang="en">
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="description" content="Uacademy - Creative HTML Template">
+    <meta name="author" content="CreateIT">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- Semantic META -->
+    <meta name="keywords" content="{{keywords}}">
+    <meta name="description" content="{{description}}">
+
+    <!-- Facebook META -->
+    <meta property="fb:app_id" content="{{facebookAppId}}">
+    <meta property="og:site_name" content="{{title}}">
+    <meta property="og:title" content="{{title}}">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:url" content="{{url}}">
+    <meta property="og:image" content="/img/brand/logo.png">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter META -->
+    <meta name="twitter:title" content="{{title}}">
+    <meta name="twitter:description" content="{{description}}">
+    <meta name="twitter:url" content="{{url}}">
+    <meta name="twitter:image" content="/img/brand/logo.png">
+
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="apple-touch-icon" href="assets/images/favicon.ico">
+
+    <title>{{title}}</title>
+
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Lato:300,400,700,900">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,300,400italic,400,6000">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="dist/application.min.css">
+
+    <!--[if lt IE 9]>
+    <script src="assets/bootstrap/js/html5shiv.min.js"></script>
+    <script src="assets/bootstrap/js/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="assets/js/modernizr.custom.js"></script>
+    <!--Application CSS Files-->
+    {% for cssFile in cssFiles1 %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
+
+    <!-- HTML5 Shim -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body class="cssAnimate ct-headroom--scrollUpMenu ng-cloak">
+<div class="ct-preloader">
+    <div class="ct-preloader-content"></div>
+</div>
+
+<!--<nav class="ct-menuMobile" data-ng-include="'/modules/core/views/nav.client.view.html'" data-ng-controller="HeaderController"></nav>-->
+
+<div id="ct-js-wrapper" class="ct-pageWrapper">
+
+    <header data-ng-include="'/modules/core/views/header.client.view.html'" data-ng-controller="HeaderController"></header>
+    <div data-ng-include="'/modules/core/views/modal.client.view.html'"></div>
+    <section class="content">
+        <section class="container">
+            {% block content %}{% endblock %}
+        </section>
+    </section>
+    <div class="ct-divider ct-u-marginBoth30"></div>
+    <footer>
+        <div class="ct-footer">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-md-push-6">
+                        <ul class="list-unstyled list-inline text-right ct-fw-300 ct-navbar--footer">
+                            <li><a href="/#/">Home</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 col-md-pull-6">
+                        <ul class="list-unstyled list-inline ct-copyright">
+                            <li>Copyright 2015</li>
+                            <li>Created by DominoChinese</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--Created by macanhhuy-->
+</div>
+<div class="loading_place hide">
+ <div style="text-align: center;max-width: 800px;font-size: 18px;font-weight: bold;margin: 0 auto;margin-top: 20%;;">Checking might take up to 1 min. Please bear with us.</div>
+  <img src="assets/images/preloader.gif" />
+</div>
+<!--Embedding The User Object-->
+<script type="text/javascript">
+    'use strict';
+    Date.prototype.addMinutes= function(m){
+        this.setMinutes(this.getMinutes()+m);
+        return this;
+    };
+    var user = {{ user | json | safe }};
+    var current_level = '{{ session.current_level }}';
+    var public_url = 'http://{{request.hostname}}:3000/';
+    function showLoading(){
+        $('.loading_place').removeClass('hide');
+
+    }
+
+    function hideLoading(){
+         $('.loading_place').addClass('hide');
+    }
+</script>
+
+<!-- JavaScripts -->
+<script src="//player.vzaar.com/libs/flashtakt/client.js" type="text/javascript"></script>
+<script src="assets/js/main-compiled.js"></script>
+<script src="dist/application.min.js"></script>
+<!--Application JavaScript Files-->
+{% for jsFile in jsFiles2 %}
+<script type="text/javascript" src="{{jsFile}}"></script>
+{% endfor %}
+
+{% if process.env.NODE_ENV === 'development' %}
+<!--Livereload script rendered -->
+<script type="text/javascript" src="http://{{request.hostname}}:35729/livereload.js"></script>
+{% endif %}
+<script type="text/javascript">
+toastr.options = {
+          "closeButton": false,
+          "debug": false,
+          "newestOnTop": false,
+          "progressBar": true,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": true,
+          "onclick": null,
+          "showDuration": "300",
+          "hideDuration": "2000",
+          "timeOut": "2000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        };
+
+function sortArray(data){
+    var array = [];
+    for(var objectKey in data) {
+        array.push(data[objectKey]);
+    }
+
+    array.sort(function(a, b){
+        a = parseInt(a.order);
+        b = parseInt(b.order);
+        return a - b;
+    });
+    return array;
+}
+</script>
+
+</body>
+</html>

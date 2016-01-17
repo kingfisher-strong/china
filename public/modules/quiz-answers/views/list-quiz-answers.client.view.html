@@ -1,0 +1,21 @@
+<section data-ng-controller="QuizAnswersController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Quiz Answers</h1>
+    </div>
+    <div class="list-group">
+        <a data-ng-repeat="quizAnswer in quizAnswers" data-ng-href="#!/quiz-answers/{{quizAnswer._id}}" class="list-group-item">
+            <p> <strong>Answer: </strong><span class="list-group-item-heading" data-ng-bind="quizAnswer.description"></span></p>
+
+			<small class="list-group-item-text">
+				Posted on
+				<span data-ng-bind="quizAnswer.created | date:'medium'"></span>
+				by
+				<span data-ng-bind="quizAnswer.user.displayName"></span>
+			</small>
+
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!quizAnswers.$resolved || quizAnswers.length">
+    	No Quiz answers yet.
+    </div>
+</section>

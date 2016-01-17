@@ -1,0 +1,43 @@
+<section id="main" class="row" data-ng-controller="ThankYouCtrl">
+
+
+    <div class="col-sm-12" id="mobile_user_video" ng-subscribe>
+        <div id="plans">
+            <!-- item -->
+            <div class="col-md-6 text-center col-md-offset-3">
+                <div class="panel panel-success panel-pricing">
+                    <div class="panel-heading">
+                        <h3>THANK YOU FOR SIGNING UP!</h3>
+                    </div>
+                    <div class="panel-body text-center">
+                        <p class="text-center">The payment will occur in your bank statement as</p>
+
+                        <p class="text-center"><strong>BRAINTREE</strong></p>
+
+                    </div>
+
+                    <div class="panel-footer">
+                        <p class="text-center">
+
+                        <h3>Your current plan: {{ current_user.plan_id }}</h3></p>
+                        <p class="text-center">
+
+                        <h3>Your next billing date is: {{ current_user.next_billing | date: 'fullDate' }}</h3></p>
+                        <a class="btn btn-lg btn-block btn-danger"
+                           href="/#!/lessons/{{ lessons[0]._id }}">LESSON 1</a>
+                        <a class="btn btn-lg btn-block btn-danger" href="/#!/">Course
+                            Material</a>
+
+                        <p class="text-center">Please contact us if you have any questions:</p>
+
+                        <p class="text-center"><a href="mailto:felix@dominochinese.com">sales@dominochinese.com</a></p>
+                    </div>
+                </div>
+            </div>
+            <!-- /item -->
+
+
+        </div>
+    </div>
+</section>
+
