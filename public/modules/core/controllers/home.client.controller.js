@@ -3,7 +3,6 @@
 /*global toastr:false */
 /*global jQuery:false */
 /*global current_level:false */
-console.log('asdasd')
 angular.module('core').controller('HomeController',
     function ($scope, $http, $rootScope, Authentication, $stateParams, $location, $modal, $log, Lessons, Levels, $timeout) {
         // This provides Authentication context.
@@ -290,15 +289,36 @@ angular.module('core').controller('FrontPageCtrl',
     }
 );
 
+angular.module('core').controller('SubscriptionCouponModalCtrl',
+    function ($scope, $modalInstance, $filter){
+//console.log(showPaymentModal)
+        var coupons = [
+            {
+                couponCode: "whateverthecouponcodeiscalled",
+                deal: "$5/month",
+                org: "$20/month",
+                period: "12 months",
+                total: "$60"
+            }
+        ];
+
+        $scope.subscribe = function(){
+            $modalInstance.close(true);
+        }
+
+        $scope.loadCoupon = function(couponCode){
+            $scope.showCouponInfo = $filter('filter')(coupons, {couponCode: couponCode})[0];
+        };
+
+    });
 angular.module('core').controller('SubscriptionCtrl',
-    function ($scope, $http, $rootScope, Authentication, $stateParams, $location, $modal, Levels, $braintree, $log) {
+    function ($scope, $http, $rootScope, Authentication, $stateParams, $location, $modal, Levels, $braintree, $filter){
         var client;
         $scope.isValid = false;
         $scope.creditCard = {
             number: '',
             expirationDate: ''
         };
-
 
         var startup = function () {
             $braintree.getClientToken().success(function (token) {
@@ -312,24 +332,7 @@ angular.module('core').controller('SubscriptionCtrl',
             $rootScope.current_user = res.data;
         });
 
-        $scope.showCouponModal = function () {
-            var modalInstance = $modal.open({
-                animation: $scope.animationsEnabled,
-                controller: 'SubscriptionCtrl',
-                templateUrl: 'modules/core/views/coupon_modal.client.view.html',
-                //size: 'lg'
-            });
-
-            modalInstance.result.then(function (selectedItem) {}, function () {
-                $log.info('Modal showPaymentModal dismissed at: ' + new Date());
-            });
-        };
-
-        $scope.showPaymentModal = function (plan, $event) {
-            $rootScope.plan = plan;
-            if (jQuery($event.target).parent().data('plan')) {
-                $rootScope.plan = 'superdeal';
-            }
+        var showPInfo = function(){
             var modalInstance = $modal.open({
                 animation: $scope.animationsEnabled,
                 controller: 'SubscriptionCtrl',
@@ -338,6 +341,29 @@ angular.module('core').controller('SubscriptionCtrl',
             });
 
             modalInstance.result.then(function (selectedItem) {}, function () {
+                //$log.info('Modal showPaymentModal dismissed at: ' + new Date());
+            });
+        }
+        $scope.showPaymentModal = function (plan, $event) {
+            $rootScope.plan = plan;
+            if (jQuery($event.target).parent().data('plan')) {
+                $rootScope.plan = 'superdeal';
+            }
+            showPInfo()
+        };
+
+        $scope.showCouponModal = function () {
+            $scope.showCouponInfo = undefined;
+            var modalInstance = $modal.open({
+                animation: $scope.animationsEnabled,
+                controller: 'SubscriptionCouponModalCtrl',
+                templateUrl: 'modules/core/views/coupon_modal.client.view.html'
+
+            });
+
+            modalInstance.result.then(function (selectedItem) {
+                if (selectedItem) showPInfo()
+            }, function () {
                 $log.info('Modal showPaymentModal dismissed at: ' + new Date());
             });
         };

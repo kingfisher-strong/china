@@ -51,7 +51,7 @@
 
     <script src="assets/js/modernizr.custom.js"></script>
     <!--Application CSS Files-->
-    {% for cssFile in cssFiles1 %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
+    {% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
 
     <!-- HTML5 Shim -->
     <!--[if lt IE 9]>
@@ -123,15 +123,18 @@
 <!-- JavaScripts -->
 <script src="//player.vzaar.com/libs/flashtakt/client.js" type="text/javascript"></script>
 <script src="assets/js/main-compiled.js"></script>
-<script src="dist/application.min.js"></script>
+
+{% if process.env.NODE_ENV === 'production' %}
+    <script src="dist/application.min.js"></script>
+{% endif %}
 <!--Application JavaScript Files-->
-{% for jsFile in jsFiles2 %}
-<script type="text/javascript" src="{{jsFile}}"></script>
-{% endfor %}
 
 {% if process.env.NODE_ENV === 'development' %}
-<!--Livereload script rendered -->
-<script type="text/javascript" src="http://{{request.hostname}}:35729/livereload.js"></script>
+    {% for jsFile in jsFiles %}
+        <script type="text/javascript" src="{{jsFile}}"></script>
+    {% endfor %}
+    <!--Livereload script rendered -->
+    <script type="text/javascript" src="http://{{request.hostname}}:35729/livereload.js"></script>
 {% endif %}
 <script type="text/javascript">
 toastr.options = {

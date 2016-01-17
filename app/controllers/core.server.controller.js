@@ -52,6 +52,10 @@ exports.client_token = function (req, res) {
     });
 };
 
+exports.getCouponByCode = function (req, res) {
+
+}
+
 exports.checkout = function (req, res) {
     var nonceFromTheClient = req.body.payment_method_nonce;
     var plan = req.body.plan;

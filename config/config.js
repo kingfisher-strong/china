@@ -20,7 +20,6 @@ module.exports = _.extend(
 module.exports.getGlobbedFiles = function(globPatterns, removeRoot) {
 	// For context switching
 	var _this = this;
-
 	// URL paths regex
 	var urlRegex = new RegExp('^(?:[a-z]+:)?\/\/', 'i');
 
@@ -49,7 +48,6 @@ module.exports.getGlobbedFiles = function(globPatterns, removeRoot) {
 			});
 		}
 	}
-
 	return output;
 };
 
